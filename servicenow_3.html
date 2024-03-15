@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Portal UI Actions, Part 2 - Ryan&#x27;s Personal Blog</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">1.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">2.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html" class="active"><strong aria-hidden="true">3.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">4.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">JavaScript</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">5.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ryan&#x27;s Personal Blog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="portal-ui-actions-part-2"><a class="header" href="#portal-ui-actions-part-2">Portal UI Actions, Part 2</a></h1>
+<p><em>3 October 2022</em></p>
+<p>If you read the <a href="./servicenow_2.html">last Portal UI Actions post</a>, I originally hard coded in the data to the server side JavaScript. Let’s extend this with a table, so that we can easily configure in new Portal UI Actions.</p>
+<h2 id="creating-a-table"><a class="header" href="#creating-a-table">Creating a Table</a></h2>
+<p>Let’s start by setting up a table. If you remember, the parameters we wanted to provide for each action were:</p>
+<pre><code class="language-javascript">// Set up each button's basic parameters.
+// name: give it a single word name.
+// label: This will be the button label and modal header.
+// condition: The condition for the button to show up.
+// text: The supporting text on the modal window.
+// commentsVisible: Whether there should be an input comments window.
+// commentsMandatory: Whether the comments window should be mandatory.
+// execution: The function to execute when clicked on.
+</code></pre>
+<p>This should be relatively simple to port over to a table. I’ll go over the Execution script later.</p>
+<p><img src="images/servicenow_3_1.webp" alt="Image" /></p>
+<p>This is a visual reference for the form I set up for Portal UI Actions.</p>
+<p>Some important things to note:</p>
+<ul>
+<li>
+<p>We have a <strong>Table Name</strong> field, called "u_ticket_table". We need this so that the <strong>Conditions</strong> field ("u_conditions") can refer to it.</p>
+</li>
+<li>
+<p>We have a nice <strong>Script</strong> field called "u_execution_script" which will, sensibly, hold our execution script.</p>
+</li>
+</ul>
+<p><img src="images/servicenow_3_2.webp" alt="Image" /></p>
+<p>It’s now just a simple matter of ingesting these records via the server script.</p>
+<h2 id="revisiting-the-server-script"><a class="header" href="#revisiting-the-server-script">Revisiting the Server Script</a></h2>
+<p>So at the top, where we have our preset values, let’s pre-set a new value called <strong>data.buttons</strong> to hold our buttons.</p>
+<pre><code class="language-javascript">// Preset some modal form values related to the comments visibility.
+// In some cases, we may not need a UI Action to have a comments box.
+// Also preset data.buttons to hold buttons,
+// and buttonValues to handle server-side actions later.
+data.commentsVisible = false;
+data.commentsMandatory = false;
+data.buttons = [];
+var buttonValues;
+</code></pre>
+<p>Now, the big one. Instead of our hardcoded <strong>data.buttons</strong> we set before, let’s query our new Portal UI Actions table! (I called it "u_portal_actions", for reference.)</p>
+<pre><code class="language-javascript">// Query for portal buttons corresponding to this table
+// For each found, evaluate the condition
+// If it passes, add to the data.buttonsvar actionQuery = new GlideRecord(‘u_portal_actions’);
+actionQuery.addQuery(‘u_ticket_table’,data.table);
+actionQuery.query();while (actionQuery.next()) {
+   if (GlideFilter.checkRecord(gr, actionQuery.u_conditions.getValue())) {
+      var actionButton = {
+         name: actionQuery.u_name.getValue(),
+         label: actionQuery.u_label.getValue(),
+         condition: actionQuery.u_conditions.getValue(),
+         text: actionQuery.u_modal_text.getValue(),
+         commentsVisible: (actionQuery.u_comments_box_visible.getValue() == ‘1’),
+         commentsMandatory: (actionQuery.u_comments_box_mandatory.getValue() == ‘1’),
+         sysId: actionQuery.sys_id.getValue()
+      };      data.buttons.push(actionButton);
+   }
+}
+</code></pre>
+<p>So this is pretty simple. We’re querying for everything on the Portal UI Actions table that matches the table our ticket is on. For each, if it passes the <strong>GlideFilter.checkRecord</strong> check, which tests a record (in our case, ours) against a query (in our case, the 'u_conditions' field), we set our actionButton object and push it into data.buttons. Simple!</p>
+<p>Oh, and what’s going on with <strong>u_comments_box_visible</strong> and <strong>u_comments_box_mandatory</strong>? Well, true and false checkboxes provide 1s and 0s… as strings, as far as I can tell. So we can’t just ask if the values are true or false; they’ll always be true, even if they’re '0', because '0' is a string and therefore true.</p>
+<p>Now that we’ve got our buttons, we can also amend that UI Actions visibility section. Last time, we were checking through the array for the conditions. We’ve already done that, though! Let’s just check the length of the data.buttons array.</p>
+<pre><code class="language-javascript">// This section sets the entire visibility of the UI Actions panel,
+// based on whether there were buttons added to data.buttonsif (data.buttons.length &gt; 0) {
+ data.panelVisibility = true; 
+ } else {
+ data.panelVisibility = false;
+ }
+</code></pre>
+<p>Finally, remember how last time we used that <strong>findButton</strong> function to find the correct execution data to execute? Well, we could technically do that again, but in this case I’m using <strong>GlideScopedEvaluator</strong> instead.</p>
+<pre><code class="language-javascript"> // Handle server-side actions after modal submission button.
+ // This works by finding the button execution script in the Portal UI Action record corresponding to the button clicked.if (input &amp;&amp; input.action) {
+ var action = input.action;
+ buttonValues = findButton(data.buttons, ‘name’, action);var executeButton = new GlideRecord(‘u_portal_actions’);
+ executeButton.get(buttonValues.sysId);var evaluator = new GlideScopedEvaluator();
+ evaluator.putVariable(“current”, gr);
+ evaluator.putVariable(“comments”, input.comments.toString());
+ evaluator.evaluateScript(executeButton,’u_execution_script’);}
+</code></pre>
+<p>We’re finding that button again, but this time we’re getting its GlideRecord object once more (as 'executeButton'). We’re then putting that into GlideScopedEvaluator along with two variables: "current", which is our passed in ticket object, and "comments", which are the optional comments someone can use. These will be used in our Execution script, going back to that table we set up.</p>
+<h2 id="adding-an-execution-script-to-a-portal-ui-actions-record"><a class="header" href="#adding-an-execution-script-to-a-portal-ui-actions-record">Adding an Execution Script to a Portal UI Actions Record</a></h2>
+<p>Most of the setup is relatively straightforward in other parts of the new table, so I’ll go over the Execution Script.</p>
+<p>The big thing is that it’s taking both those variables so that you can use them in your object. Here’s the default text I put for that field.</p>
+<pre><code class="language-javascript">(function executeAction(current, comments) {
+
+ // Put your script here. Remember you will only have comments if the comments box was visible.
+ 
+ })(current, comments);
+</code></pre>
+<p><img src="images/servicenow_3_3.webp" alt="Image" /></p>
+<p>This makes it similar to a Business Rule, so developers with less understanding of JavaScript would still be able to use it. Here’s a really basic example: adding the comment to the ticket. (This is absolutely unnecessary, as there is already a method for doing this on the ticket page; it’s just a proof of concept.)</p>
+<p>Please ignore the comment I have in the script because it’s from an older iteration :) We're not using gr anymore.</p>
+<p><img src="images/servicenow_3_4.webp" alt="Image" /></p>
+<p>And for good measure, here’s all three buttons I’ve set up:</p>
+<p><img src="images/servicenow_3_5.webp" alt="Image" /></p>
+<h2 id="putting-it-all-together---portal-ui-actions-in-use"><a class="header" href="#putting-it-all-together---portal-ui-actions-in-use">Putting it all together - Portal UI Actions in Use</a></h2>
+<p>Let’s look at this in action! I’ve opened up a new Request for an Acer Aspire NX. The Actions widget has shown up, and it’s shown me the two Actions that apply: Comments Test and Cancel Request.</p>
+<p><img src="images/servicenow_3_6.webp" alt="Image" /></p>
+<p>Let’s use the Comments Test first, just for fun. Clicking on it displays the modal window, with our mandatory text. Trying to Submit without filling it out shows a nice “Please fill out this field” message, since it’s mandatory.</p>
+<p><img src="images/servicenow_3_7.webp" alt="Image" /></p>
+<p>Submitting inputs the comment, as expected.</p>
+<p><img src="images/servicenow_3_8.webp" alt="Image" /></p>
+<p>Cancel Request cancels the RITM and its parent REQ. (If you don’t have a Business Rule set up to cancel SCTASKs when a parent RITM is canceled, you might want to also make that part of your execution script.)</p>
+<p>This one doesn’t have a comments box because I didn’t set that up in its record, but realistically you would probably want the end user to place a comment indicating the cancellation reason.</p>
+<p><img src="images/servicenow_3_9.webp" alt="Image" /></p>
+<p>Submitting this cancels the RITM, as predicted. The Portal UI Actions widget also disappears, because now there are no buttons which satisfy the criteria of this ticket.</p>
+<p><img src="images/servicenow_3_10.webp" alt="Image" /></p>
+<p>Just for fun, what was that last button I created? The Incident test?</p>
+<p>It does nothing. It’s just an example to show how different buttons can appear on different ticket types.</p>
+<p><img src="images/servicenow_3_11.webp" alt="Image" /></p>
+<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
+<p>While modern Portal design doesn't really necessitate the use of the Portal UI Actions widget anymore, the learnings taken from it can be used in other areas. It was pretty neat to learn how to use Filter Conditions and Execution Scripts in a custom table.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="servicenow_2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="servicenow_4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="servicenow_2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="servicenow_4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

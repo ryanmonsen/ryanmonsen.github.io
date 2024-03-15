@@ -1,0 +1,752 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Ryan&#x27;s Personal Blog</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">1.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">2.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">3.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">4.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">JavaScript</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">5.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ryan&#x27;s Personal Blog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="welcome-to-my-blog"><a class="header" href="#welcome-to-my-blog">Welcome to my blog!</a></h1>
+<p>This is where I'll post about cool ServiceNow stuff and other things I'm working on.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="list-choice-ui-action-on-database-view"><a class="header" href="#list-choice-ui-action-on-database-view">List Choice UI Action on Database View</a></h1>
+<p><em>13 February 2021</em></p>
+<p>We had a very specific use case that involved <strong>Assessment Instances</strong>, <strong>Assessment Instance Questions</strong>, and <strong>Assessment Feedback Tickets</strong> (custom created). If an Assessment with written feedback was analyzed and found to have something worth correcting, a Feedback Ticket should be opened up to the team who resolved that user’s original ticket for root cause analysis and remediation.</p>
+<p>In order to facilitate that process, we needed:</p>
+<ul>
+<li>
+<p>A way for the survey analysis team to view <strong>Assessments</strong> along with the recorded Additional Information in the <strong>Assessment Question</strong> that contained it, filtered so they did not see any that already had a <strong>Feedback Ticket</strong> associated with it. This would be a database view that joined those three tables.</p>
+</li>
+<li>
+<p>A way for the survey analysis team, once an Assessment worth RCA’ing was found, to easily create a Feedback Ticket.</p>
+</li>
+</ul>
+<p>Given the team would already be working within a filtered Database View, it made sense to give them a UI Action directly within that view. So, I created a <strong>List Choice UI Action</strong> which would allow them to checkmark the items needing analysis and create Feedback Tickets out of it.</p>
+<p>What I found was that, within the server script for this UI Action, you could use the various joined fields together in the same format you use them to join your tables together: <code>current.asmt_sys_id</code>, <code>current.asmtq_sys_id</code>, etc. I was able to send the needed record sys_ids to a Script Include for processing and generating a Survey Feedback ticket.</p>
+<p>While I didn’t have a need to send the exact field data over to the Script Include (because I was also calling that function from some other locations, and thus querying the needed data anyway), I can confirm that you can grab not only sys_ids but also field data. Take this example UI Action on the <strong>incident_metric</strong> OOB Database View:</p>
+<p><img src="images/servicenow_1_1.webp" alt="Image" /></p>
+<p>This Script for the server UI Action will log details from multiple tables.</p>
+<p><img src="images/servicenow_1_2.webp" alt="Image" /></p>
+<p>The resulting log entry shows the result.</p>
+<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
+<p>This can be a pretty nice way to make Database Views more actionable, if you have the need for it.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="portal-ui-actions-part-1"><a class="header" href="#portal-ui-actions-part-1">Portal UI Actions, Part 1</a></h1>
+<p><em>16 February 2021</em></p>
+<p>Before there was a “Standard Ticket Actions”, we had a need to create a UI Actions widget on the portal. Here’s what I did to achieve that.</p>
+<h2 id="html"><a class="header" href="#html">HTML</a></h2>
+<p>The entire panel shows if <code>data.panelVisibility</code> is true. Check the below server script to understand how that evaluates.</p>
+<p>Then, for each button in c.data.buttons, show if <code>button.condition</code> is true. Again, check the server script — the condition for each button is stored in the server script.</p>
+<p>On click of the button, the modal window opens. A comments window optionally displays and is optionally mandatory depending on <code>data.commentsVisible</code> and <code>data.commentsMandatory</code> which, again, is fed in from the buttons data...</p>
+<p>Finally, there is a Submit and a Cancel button in the modal window.</p>
+<pre><code class="language-html">&lt;!-- This section handles the panel and button display.
+You will not need to edit it because it pulls from c.data.buttons --&gt;&lt;div class="panel b ng-scope" ng-if="data.panelVisibility"&gt;
+  &lt;div class="panel-heading bg-primary panel-la-jolla-default"&gt;
+    Actions
+  &lt;/div&gt;
+  &lt;div class="panel-body"&gt;
+    &lt;span ng-repeat="button in c.data.buttons"&gt;
+      &lt;button type="button" ng-if="button.condition" style="margin: 5px 0px;" class="btn btn-default btn-block" ng-click="c.openModal(button.name)"&gt;{{button.label}}&lt;/button&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;!-- This section handles the modal window.--&gt;&lt;script type="text/ng-template" id="modalTemplate"&gt;
+&lt;div class="panel panel-default"&gt;
+  &lt;div class="panel-heading"&gt;
+    &lt;h4 class="panel-title"&gt;{{data.title}}&lt;/h4&gt;
+  &lt;/div&gt;&lt;div class="panel-body wrapper-xl"&gt;
+    &lt;p style="margin-bottom: 20px;"&gt;{{data.text}}&lt;/p&gt;
+    &lt;form name="modalTemplate" ng-submit="c.uiAction(c.data.button)"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;textarea required sp-autosize="true" ng-if="data.commentsVisible" ng-required="data.commentsMandatory" ng-model="data.comments" id="comments" placeholder="Enter comments here" class="form-control ng-pristine ng-valid ng-scope ng-empty ng-touched" aria-invalid="false" style="overflow: hidden; word-wrap: break-word; resize: horizontal;"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;&lt;input class="btn btn-primary" type="submit" value="Submit" /&gt;
+      &lt;button class="btn" type="cancel" ng-click="c.closeModal()"&gt;Cancel&lt;/button&gt;&lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+<h2 id="server-script"><a class="header" href="#server-script">Server Script</a></h2>
+<p>The Server Script presets some modal form values for <code>data.commentsVisible</code> and <code>data.commentsMandatory</code> to use later—in some cases, we want users to be able to input comments, and in some cases enforce comments to be inputted, before allowing the action to continue.</p>
+<p>We also initialize <code>buttonValues</code>.</p>
+<p>We then fetch <code>data.table</code> and <code>data.sys_id</code> as the input.table and input.sys_id.</p>
+<p>So this looks like:</p>
+<pre><code class="language-javascript">// Preset some modal form values related to the comments visibility.
+// In some cases, we may not need a UI Action to have a comments box.
+// Also preset a variable for later.
+ data.commentsVisible = false;
+ data.commentsMandatory = false;
+ var buttonValues;// Get table &amp; sys_id and perform validity checks.
+ data.table = input.table || $sp.getParameter("table");
+ data.sys_id = input.sys_id || $sp.getParameter("sys_id");
+ gr = new GlideRecord(data.table);
+ if (!gr.isValid())
+  return;
+ if (!gr.get(data.sys_id))
+  return;
+</code></pre>
+<p>Next, we set up some buttons into <code>data.buttons</code>. (These were created in a specific way that they could be offloaded to a separate table if we ended up with too many, but thankfully we never needed that many buttons.)</p>
+<p>Here is just one example, but you can put in many buttons to data.buttons. We have four right now.</p>
+<pre><code class="language-javascript">// Set up each button's basic parameters.
+// name: give it a single word name.
+// label: This will be the button label and modal header.
+// condition: The condition for the button to show up.
+// text: The supporting text on the modal window.
+// commentsVisible: Whether there should be an input comments window.
+// commentsMandatory: Whether the comments window should be mandatory.
+// execution: The function to execute when clicked on.// Remember! gr is the variable for the current record.
+data.buttons = [{name:'reopenRslv',
+   label: 'Reopen Resolved Incident',
+   condition: (data.table == 'incident' &amp;&amp; gr.incident_state == 6 &amp;&amp; gr.caller_id == gs.getUserID()),
+   text: "Please enter a comment when reopening an Incident.",
+   commentsVisible: true,
+   commentsMandatory: true,
+   execution: function(){
+    gr.state = 60;
+    gr.close_code = '';
+    gr.close_notes = '';
+    gr.comments = input.comments;
+    gr.update();
+   }
+  }
+]
+</code></pre>
+<p>Notice how we gave the name of the button, the user-friendly label, the text to show the user, the condition to show this button on (which <strong>must</strong> include the ticket table to show this button on), set our commentsVisible and commentsMandatory, and set our execution script.</p>
+<p>You can also set data.referURL within the execution function, by the way. This will be handled later, and is useful for actions that generate new tickets from the existing ticket — you can forward your user directly to the new ticket.</p>
+<p>We then decide whether to show the Portal UI Actions panel at all:</p>
+<pre><code class="language-javascript">// This section sets the entire visibility of the UI Actions panel,
+// based on whether any of the button conditions evaluate to true.var arrayLength = data.buttons.length;
+ var flag = false;
+ for (var i=0; i &lt; arrayLength; i++) {
+  if (data.buttons[i].condition == true) {
+   flag = true;
+  }
+ }
+ data.panelVisibility = flag;
+</code></pre>
+<p>We now handle how the modal window will look and act, by checking if <strong>input.button</strong> occurred.</p>
+<pre><code class="language-javascript">// Handle the modal title and additional fields.
+// Also handle whether comments need to be visible and mandatory.
+// This works by finding the data.buttons object corresponding to the button clicked.if (input &amp;&amp; input.button) {
+  var button = input.button;buttonValues = findButton(data.buttons, 'name', button);
+  data.title = buttonValues.label;
+  data.text = buttonValues.text;
+  data.commentsVisible = buttonValues.commentsVisible;
+  data.commentsMandatory = buttonValues.commentsMandatory;
+ }
+</code></pre>
+<p><code>findButton</code> looks like the below — we are sending along the data.buttons array, ‘name’, and the actual name of the button they clicked on. Essentially we look for which button the user clicked on and return that one, which will display the modal window for the user.</p>
+<pre><code class="language-javascript">// Function to find the correct button in the buttons data
+ function findButton(array, key, value) {
+  for (var i = 0; i &lt; array.length; i++) {
+   if (array[i][key] === value) {
+    return array[i];
+   }
+  }
+  return null;
+ }
+</code></pre>
+<p>Finally, when the user clicks <strong>Submit</strong> on the modal window, we find the correct execution action and execute it:</p>
+<pre><code class="language-javascript"> if (input &amp;&amp; input.action) {
+  var action = input.action;
+  buttonValues = findButton(data.buttons, 'name', action);
+  buttonValues.execution();
+}
+</code></pre>
+<h2 id="client-controller"><a class="header" href="#client-controller">Client Controller</a></h2>
+<p>Our function takes $uibModal, $scope, spUtil, $window.</p>
+<p>We first set our $scope.$on:</p>
+<pre><code class="language-javascript">$scope.$on('record.updated', function(name, data) {
+  c.data.comments = '';
+  spUtil.update($scope);
+ })
+</code></pre>
+<p>Now, we will handle what happens when the modal window opens:</p>
+<pre><code class="language-javascript">// This function handles opening the modal window.
+// If takes the button input and puts it in data object, then reloads the server-side actions.
+// After server actions, it opens the modal window.
+ c.openModal = function(button) {
+  c.data.button = button;
+  c.server.update();
+  c.modalInstance = $uibModal.open({
+   templateUrl: 'modalTemplate',
+   scope: $scope
+  });
+ }
+</code></pre>
+<p>Remember how, on the HTML, clicking the button executed <code>ng-click="c.openModal(button.name)"</code>? We take that button name, and we pass it to the server as <code>c.data.button = button</code> — this is how our <code>if (input &amp;&amp; input.button)</code> works on the server script.</p>
+<p>On that server script, we set all the stuff needed for our modal window — the label, the text, the commentsVisible, and the commentsMandatory.</p>
+<p>Next, what happens when the user clicks <strong>Submit</strong>? <code>ng-submit="c.uiAction(c.data.button)"</code> occurs, and lets us know, again, which button we’re submitting.</p>
+<pre><code class="language-javascript">// This function handles execution of action per the modal submission.
+// It takes the action input and puts it in data object, then reloads the server-side actions.
+// After server actions, if there's a referring URL to go to then it goes there.
+// If we didn't redirect anywhere, it sets action &amp; button back to undefined and then closes the modal window.
+c.uiAction = function(action) {
+  c.data.action = action;
+  c.server.update().then(function() {
+   if (!!c.data.referURL)
+    top.window.location.href = c.data.referURL;
+   c.data.action = undefined;
+   c.data.button = undefined;
+  })
+  c.modalInstance.close();}
+</code></pre>
+<p>We take action on the button by sending c.data.action back to the server — this is what triggers the <code>if (input &amp;&amp; input.action)</code>. If we provided a referURL, we’d then send the user there — otherwise, we just refresh the page and reset our action and button.</p>
+<p>Finally, if the user clicks <strong>Cancel</strong>, we trigger <code>ng-click="c.closeModal()"</code>.</p>
+<pre><code class="language-javascript">// This function closes the modal window.
+// It first clears out button and action, just in case.
+c.closeModal = function() {
+  c.data.action = undefined;
+  c.data.button = undefined;
+  c.modalInstance.close();
+}
+</code></pre>
+<p>This clears out our action and our button so they can click a different one if they want to instead.</p>
+<h2 id="in-summary-1"><a class="header" href="#in-summary-1">In Summary</a></h2>
+<p>This was my first attempt at creating a Portal widget. There are certainly places where it can be improved and refined, but it does what it needs to do.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="portal-ui-actions-part-2"><a class="header" href="#portal-ui-actions-part-2">Portal UI Actions, Part 2</a></h1>
+<p><em>3 October 2022</em></p>
+<p>If you read the <a href="./servicenow_2.html">last Portal UI Actions post</a>, I originally hard coded in the data to the server side JavaScript. Let’s extend this with a table, so that we can easily configure in new Portal UI Actions.</p>
+<h2 id="creating-a-table"><a class="header" href="#creating-a-table">Creating a Table</a></h2>
+<p>Let’s start by setting up a table. If you remember, the parameters we wanted to provide for each action were:</p>
+<pre><code class="language-javascript">// Set up each button's basic parameters.
+// name: give it a single word name.
+// label: This will be the button label and modal header.
+// condition: The condition for the button to show up.
+// text: The supporting text on the modal window.
+// commentsVisible: Whether there should be an input comments window.
+// commentsMandatory: Whether the comments window should be mandatory.
+// execution: The function to execute when clicked on.
+</code></pre>
+<p>This should be relatively simple to port over to a table. I’ll go over the Execution script later.</p>
+<p><img src="images/servicenow_3_1.webp" alt="Image" /></p>
+<p>This is a visual reference for the form I set up for Portal UI Actions.</p>
+<p>Some important things to note:</p>
+<ul>
+<li>
+<p>We have a <strong>Table Name</strong> field, called "u_ticket_table". We need this so that the <strong>Conditions</strong> field ("u_conditions") can refer to it.</p>
+</li>
+<li>
+<p>We have a nice <strong>Script</strong> field called "u_execution_script" which will, sensibly, hold our execution script.</p>
+</li>
+</ul>
+<p><img src="images/servicenow_3_2.webp" alt="Image" /></p>
+<p>It’s now just a simple matter of ingesting these records via the server script.</p>
+<h2 id="revisiting-the-server-script"><a class="header" href="#revisiting-the-server-script">Revisiting the Server Script</a></h2>
+<p>So at the top, where we have our preset values, let’s pre-set a new value called <strong>data.buttons</strong> to hold our buttons.</p>
+<pre><code class="language-javascript">// Preset some modal form values related to the comments visibility.
+// In some cases, we may not need a UI Action to have a comments box.
+// Also preset data.buttons to hold buttons,
+// and buttonValues to handle server-side actions later.
+data.commentsVisible = false;
+data.commentsMandatory = false;
+data.buttons = [];
+var buttonValues;
+</code></pre>
+<p>Now, the big one. Instead of our hardcoded <strong>data.buttons</strong> we set before, let’s query our new Portal UI Actions table! (I called it "u_portal_actions", for reference.)</p>
+<pre><code class="language-javascript">// Query for portal buttons corresponding to this table
+// For each found, evaluate the condition
+// If it passes, add to the data.buttonsvar actionQuery = new GlideRecord(‘u_portal_actions’);
+actionQuery.addQuery(‘u_ticket_table’,data.table);
+actionQuery.query();while (actionQuery.next()) {
+   if (GlideFilter.checkRecord(gr, actionQuery.u_conditions.getValue())) {
+      var actionButton = {
+         name: actionQuery.u_name.getValue(),
+         label: actionQuery.u_label.getValue(),
+         condition: actionQuery.u_conditions.getValue(),
+         text: actionQuery.u_modal_text.getValue(),
+         commentsVisible: (actionQuery.u_comments_box_visible.getValue() == ‘1’),
+         commentsMandatory: (actionQuery.u_comments_box_mandatory.getValue() == ‘1’),
+         sysId: actionQuery.sys_id.getValue()
+      };      data.buttons.push(actionButton);
+   }
+}
+</code></pre>
+<p>So this is pretty simple. We’re querying for everything on the Portal UI Actions table that matches the table our ticket is on. For each, if it passes the <strong>GlideFilter.checkRecord</strong> check, which tests a record (in our case, ours) against a query (in our case, the 'u_conditions' field), we set our actionButton object and push it into data.buttons. Simple!</p>
+<p>Oh, and what’s going on with <strong>u_comments_box_visible</strong> and <strong>u_comments_box_mandatory</strong>? Well, true and false checkboxes provide 1s and 0s… as strings, as far as I can tell. So we can’t just ask if the values are true or false; they’ll always be true, even if they’re '0', because '0' is a string and therefore true.</p>
+<p>Now that we’ve got our buttons, we can also amend that UI Actions visibility section. Last time, we were checking through the array for the conditions. We’ve already done that, though! Let’s just check the length of the data.buttons array.</p>
+<pre><code class="language-javascript">// This section sets the entire visibility of the UI Actions panel,
+// based on whether there were buttons added to data.buttonsif (data.buttons.length &gt; 0) {
+ data.panelVisibility = true; 
+ } else {
+ data.panelVisibility = false;
+ }
+</code></pre>
+<p>Finally, remember how last time we used that <strong>findButton</strong> function to find the correct execution data to execute? Well, we could technically do that again, but in this case I’m using <strong>GlideScopedEvaluator</strong> instead.</p>
+<pre><code class="language-javascript"> // Handle server-side actions after modal submission button.
+ // This works by finding the button execution script in the Portal UI Action record corresponding to the button clicked.if (input &amp;&amp; input.action) {
+ var action = input.action;
+ buttonValues = findButton(data.buttons, ‘name’, action);var executeButton = new GlideRecord(‘u_portal_actions’);
+ executeButton.get(buttonValues.sysId);var evaluator = new GlideScopedEvaluator();
+ evaluator.putVariable(“current”, gr);
+ evaluator.putVariable(“comments”, input.comments.toString());
+ evaluator.evaluateScript(executeButton,’u_execution_script’);}
+</code></pre>
+<p>We’re finding that button again, but this time we’re getting its GlideRecord object once more (as 'executeButton'). We’re then putting that into GlideScopedEvaluator along with two variables: "current", which is our passed in ticket object, and "comments", which are the optional comments someone can use. These will be used in our Execution script, going back to that table we set up.</p>
+<h2 id="adding-an-execution-script-to-a-portal-ui-actions-record"><a class="header" href="#adding-an-execution-script-to-a-portal-ui-actions-record">Adding an Execution Script to a Portal UI Actions Record</a></h2>
+<p>Most of the setup is relatively straightforward in other parts of the new table, so I’ll go over the Execution Script.</p>
+<p>The big thing is that it’s taking both those variables so that you can use them in your object. Here’s the default text I put for that field.</p>
+<pre><code class="language-javascript">(function executeAction(current, comments) {
+
+ // Put your script here. Remember you will only have comments if the comments box was visible.
+ 
+ })(current, comments);
+</code></pre>
+<p><img src="images/servicenow_3_3.webp" alt="Image" /></p>
+<p>This makes it similar to a Business Rule, so developers with less understanding of JavaScript would still be able to use it. Here’s a really basic example: adding the comment to the ticket. (This is absolutely unnecessary, as there is already a method for doing this on the ticket page; it’s just a proof of concept.)</p>
+<p>Please ignore the comment I have in the script because it’s from an older iteration :) We're not using gr anymore.</p>
+<p><img src="images/servicenow_3_4.webp" alt="Image" /></p>
+<p>And for good measure, here’s all three buttons I’ve set up:</p>
+<p><img src="images/servicenow_3_5.webp" alt="Image" /></p>
+<h2 id="putting-it-all-together---portal-ui-actions-in-use"><a class="header" href="#putting-it-all-together---portal-ui-actions-in-use">Putting it all together - Portal UI Actions in Use</a></h2>
+<p>Let’s look at this in action! I’ve opened up a new Request for an Acer Aspire NX. The Actions widget has shown up, and it’s shown me the two Actions that apply: Comments Test and Cancel Request.</p>
+<p><img src="images/servicenow_3_6.webp" alt="Image" /></p>
+<p>Let’s use the Comments Test first, just for fun. Clicking on it displays the modal window, with our mandatory text. Trying to Submit without filling it out shows a nice “Please fill out this field” message, since it’s mandatory.</p>
+<p><img src="images/servicenow_3_7.webp" alt="Image" /></p>
+<p>Submitting inputs the comment, as expected.</p>
+<p><img src="images/servicenow_3_8.webp" alt="Image" /></p>
+<p>Cancel Request cancels the RITM and its parent REQ. (If you don’t have a Business Rule set up to cancel SCTASKs when a parent RITM is canceled, you might want to also make that part of your execution script.)</p>
+<p>This one doesn’t have a comments box because I didn’t set that up in its record, but realistically you would probably want the end user to place a comment indicating the cancellation reason.</p>
+<p><img src="images/servicenow_3_9.webp" alt="Image" /></p>
+<p>Submitting this cancels the RITM, as predicted. The Portal UI Actions widget also disappears, because now there are no buttons which satisfy the criteria of this ticket.</p>
+<p><img src="images/servicenow_3_10.webp" alt="Image" /></p>
+<p>Just for fun, what was that last button I created? The Incident test?</p>
+<p>It does nothing. It’s just an example to show how different buttons can appear on different ticket types.</p>
+<p><img src="images/servicenow_3_11.webp" alt="Image" /></p>
+<h2 id="in-summary-2"><a class="header" href="#in-summary-2">In Summary</a></h2>
+<p>While modern Portal design doesn't really necessitate the use of the Portal UI Actions widget anymore, the learnings taken from it can be used in other areas. It was pretty neat to learn how to use Filter Conditions and Execution Scripts in a custom table.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="passing-values-to-arrays-during-gliderecord-queries"><a class="header" href="#passing-values-to-arrays-during-gliderecord-queries">Passing Values to Arrays during GlideRecord Queries</a></h1>
+<p><em>8 February 2024</em></p>
+<p>Some very intelligent people on Stack Overflow will tell you that JavaScript does not actually have any sort of pass by reference. In fact, JavaScript only has “pass by value” and “pass by sharing”, in which what is passed is not the original reference but a copy of the reference.</p>
+<p>None of this matters for what we’re about to talk about, but you can find a very good explanation of this <a href="https://stackoverflow.com/a/38533677">here</a>.</p>
+<p>We are still going to call this “pass by reference” for now, because “reference” is already a well-understood term in ServiceNow.</p>
+<h2 id="references-and-getvalue"><a class="header" href="#references-and-getvalue">References and GetValue</a></h2>
+<p>We have a good idea of what a <strong>reference field</strong> is in a table.</p>
+<p>If we stored the <strong>Caller name</strong> directly on an Incident, in a String field… what would happen if that caller changed their name? Suddenly we’d have some Incidents tied to an old name and some tied to a new name. So instead, we reference another record. The caller name is being pulled from the <strong>User</strong> table instead. What we are storing in <strong>Caller</strong> is not actually the user’s name, but a reference to the <strong>record on the User table</strong>.</p>
+<p><img src="images/servicenow_4_1.webp" alt="Image" /></p>
+<p>This means, if David Miller changed his name, that would be changed in the User table, and all the Incidents would now display the new name instead — both all his previous Incidents and any new Incidents he opened. Pretty neat.</p>
+<p>We can think of arrays and objects in JavaScript the same way. When we pass data between objects and arrays, what is passed is a reference to where we can find the data.</p>
+<p>Let’s look at GlideRecord as an example!</p>
+<pre><code class="language-javascript">var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    gs.print(gr.short_description);
+}
+</code></pre>
+<p>This will give us:</p>
+<pre><code>*** Script: Unable to connect to email
+*** Script: My computer is not detecting the headphone device
+*** Script: Reset my password
+*** Script: Need Oracle 10GR2 installed
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Makes sense. We are printing every time we are looking at a new record in our GlideRecord query.</p>
+<p>What if, instead, we put these in an array?</p>
+<pre><code class="language-javascript">var array = [];
+
+var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    array.push(gr.short_description);
+}
+
+for (item in array) {
+    gs.print(array[item]);
+}
+</code></pre>
+<pre><code>*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Uh oh! What’s happened here?</p>
+<p>Well, every time we pushed to <code>array</code>, we thought we were pushing the string of the short description… but instead, we were pushing that reference to <code>gr</code>!</p>
+<p>So, what was actually stored in the array looked something like this (translated for the human brain):</p>
+<pre><code>[
+  gr.short_description,
+  gr.short_description,
+  gr.short_description,
+  gr.short_description,
+  gr.short_description
+]
+</code></pre>
+<p>When we printed out the end result, <code>gr.short_description</code>’s value was the very last Incident we were looking at, with the description of 'Need new Blackberry set up', and so we got that outputted five times. <code>gr</code> in this case is kind of like that reference to the Caller name we talked about above — every time we did <code>gr.next()</code>, the <strong>Short description</strong> changed.</p>
+<p>In order to fix this, we have to explicitly push the <strong>value</strong> of the data we want, and not just the reference of where to find the data.</p>
+<p>ServiceNow has provided us a very helpful method within GlideRecord for this, called <code>getValue()</code>. With this method, the data will be translated to a string, and so when it is stored in the array it will no longer be a reference, but actual string data.</p>
+<p>Let’s take a look at how the code will look when using <code>getValue()</code>.</p>
+<pre><code class="language-javascript">var array = [];
+
+var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    array.push(gr.getValue('short_description')); // use getValue
+}
+
+for (item in array) {
+    gs.print(array[item]);
+}
+</code></pre>
+<p>Now, when we run this...</p>
+<pre><code>*** Script: Unable to connect to email
+*** Script: My computer is not detecting the headphone device
+*** Script: Reset my password
+*** Script: Need Oracle 10GR2 installed
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Great! We have exactly what we wanted — rather than a reference to <code>gr</code>, which keeps changing, the actual value of the data was stored to the array each time we pushed.</p>
+<h2 id="what-about-getdisplayvalue"><a class="header" href="#what-about-getdisplayvalue">What about GetDisplayValue?</a></h2>
+<p>In addition to <code>getValue()</code>, there’s another cool method called <code>getDisplayValue()</code>. Rather than getting the backend value for a field, it will get whatever is being displayed to the user.</p>
+<p>For example, <code>getValue()</code> on a choice field will give the value, which may be a number, but <code>getDisplayValue()</code> will give the label.</p>
+<h2 id="in-summary-3"><a class="header" href="#in-summary-3">In Summary</a></h2>
+<p>It's good to just get into the habit of using <code>getValue()</code> and <code>getDisplayValue()</code> where possible, just so you avoid running into this issue.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="a-solution-to-the-happy-numbers-problem-in-javascript"><a class="header" href="#a-solution-to-the-happy-numbers-problem-in-javascript">A Solution to the Happy Numbers Problem in Javascript</a></h1>
+<p><em>2 March 2023</em></p>
+<p>A happy number is a number defined as follows:</p>
+<p>Starting with any positive integer, replace the number by the sum of its squares of its digits, and repeat the process until the number equals 1.</p>
+<p>If the number is a happy number, it will resolve to 1. If it is a sad number, it will loop endlessly.</p>
+<p>Let’s get the first 10,000 happy numbers!</p>
+<pre><code class="language-javascript">// INSTANTIATE OUR SETS
+// WE KNOW 1 IS A HAPPY NUMBER BY DEFINITION
+let happyNumbers = new Set([1]);
+let sadNumbers = new Set();
+
+// GET FIRST 10,000 HAPPY NUMBERS
+for (x = 0; happyNumbers.size &lt; 10000; x++) {
+    getHappyNumber(x);
+}
+
+// RESULT OUTPUT
+var finalArray = Array.from(happyNumbers).sort( (a, b) =&gt; a - b);
+console.log("Happy Numbers: " + finalArray.join(', '));
+
+function getHappyNumber(input) {
+
+    // HOLDING ARRAY WILL LET US KEEP TRACK OF CALCULATED SUMS OF SQUARED DIGITS
+    let holdingArray = [];
+
+    while (true) {
+        // IF HAPPY NUMBER ALREADY HAS IT
+        // NO NEED TO RECALCULATE, PUSH TO SET OF HAPPY NUMBERS
+        if (happyNumbers.has(input)) {
+            holdingArray.forEach(x =&gt; happyNumbers.add(x));
+            break;
+
+        // IF WE ARE IN A LOOP OR SAD NUMBER ALREADY HAS IT
+        // NO NEED TO RECALCULATE, PUSH TO SET OF SAD NUMBERS
+        } else if (sadNumbers.has(input) || holdingArray.includes(input)) {
+            holdingArray.forEach(x =&gt; sadNumbers.add(x));
+            break;
+        }
+
+        // PUSH THE NUMBER TO THE HOLDING ARRAY
+        holdingArray.push(input);
+
+        // CALCULATE SUM OF SQUARES
+        // GOTTA TURN THIS NUMBER INTO A STRING
+        // AND THEN SPLIT IT INTO AN ARRAY
+        // AND SUM UP EACH SQUARED VALUE WITH REDUCE
+        input = input.toString().split('').reduce(
+            (acc, cur) =&gt; acc + (cur ** 2), 0
+        );
+    }
+
+}
+</code></pre>
+<p>Time to break this bad boy down.</p>
+<h2 id="breaking-this-bad-boy-down"><a class="header" href="#breaking-this-bad-boy-down">Breaking This Bad Boy Down</a></h2>
+<p>Let’s start with the basic part, where we turn one number into a sum of its squared digits. That’s the part at the end!</p>
+<p>Here’s a example with an input and an output.</p>
+<pre><code class="language-javascript">let input = 19;
+
+let output = input.toString().split('').reduce(
+    (acc, cur) =&gt; acc + (cur ** 2), 0
+);
+
+console.log("Input: " + input + " Output: " + output);
+// Input: 19 Output: 82
+</code></pre>
+<p>What we’re doing is:</p>
+<ol>
+<li>Taking that number input and turning it into a String</li>
+<li>Splitting its digits into an array</li>
+<li>Reducing the array by adding each array element (digit) ** 2 (squared) to our initial value of 0</li>
+</ol>
+<p>Of course, that 82 would need to be further reduced into 68, which would be reduced to 100, which would be reduced to 1! This means that we now know, by looking at 19, that 19, 82, 68, and 100 are all happy numbers.</p>
+<p>We can now examine the whole getHappyNumber() function.</p>
+<pre><code class="language-javascript">// INSTANTIATE OUR SETS
+// WE KNOW 1 IS A HAPPY NUMBER BY DEFINITION
+let happyNumbers = new Set([1]);
+let sadNumbers = new Set();
+
+// snipping this part for later :)
+
+function getHappyNumber(input) {
+
+    // HOLDING ARRAY WILL LET US KEEP TRACK OF CALCULATED SUMS OF SQUARED DIGITS
+    let holdingArray = [];
+
+    while (true) {
+        // IF HAPPY NUMBER ALREADY HAS IT
+        // NO NEED TO RECALCULATE, PUSH TO SET OF HAPPY NUMBERS
+        if (happyNumbers.has(input)) {
+            holdingArray.forEach(x =&gt; happyNumbers.add(x));
+            break;
+
+        // IF WE ARE IN A LOOP OR SAD NUMBER ALREADY HAS IT
+        // NO NEED TO RECALCULATE, PUSH TO SET OF SAD NUMBERS
+        } else if (sadNumbers.has(input) || holdingArray.includes(input)) {
+            holdingArray.forEach(x =&gt; sadNumbers.add(x));
+            break;
+        }
+
+        // PUSH THE NUMBER TO THE HOLDING ARRAY
+        holdingArray.push(input);
+
+        // CALCULATE SUM OF SQUARES
+        // GOTTA TURN THIS NUMBER INTO A STRING
+        // AND THEN SPLIT IT INTO AN ARRAY
+        // AND SUM UP EACH SQUARED VALUE WITH REDUCE
+        input = input.toString().split('').reduce(
+            (acc, cur) =&gt; acc + (cur ** 2), 0
+        );
+    }
+
+}
+</code></pre>
+<p>You’ll notice the first thing we do, outside the function, is instantiate two Sets — happyNumbers and sadNumbers. This will help us keep track of the numbers we’ve already determined to be happy and sad so we don’t waste time recomputing them.</p>
+<p>First, we set our temporary holdingArray. This is where we’re going to store our numbers like 19, 82, 68, and so forth, as we calculate.</p>
+<p>Next, we enter the <strong>while</strong> loop, which loops until we hit a break point.</p>
+<p>The first thing we do is check whether our happyNumbers Set already has our input number. For example, if we are looking at the number <strong>82</strong>, we have presumably already examined <strong>19</strong> and so we would already know <strong>82</strong> is a happy number. No need to go through the whole calculation again — push what we’ve got straight into the happyNumbers Set.</p>
+<p>Similarly, we can next check if our sadNumbers Set already has our input number, for the same reason. We also check whether holdingArray already has that number, because if it does we’re stuck in an endless loop which will never resolve to 1, and that’s a sad number. Push it to the sadNumbers Set and stop looping!</p>
+<p>If neither condition is satisfied, then we’ve got a brand new number to examine! Push it to our holdingArray for later, and perform our calculation on it.</p>
+<p>So, how do we call this to get our first 10,000 happy numbers? We can use a <strong>for</strong> loop for that!</p>
+<pre><code class="language-javascript">// GET FIRST 10,000 HAPPY NUMBERS
+for (x = 0; happyNumbers.size &lt; 10000; x++) {
+    getHappyNumber(x);
+}
+</code></pre>
+<p>Rather than waiting until x gets to a certain size, we’re just going to loop until our happyNumbers Set reaches a size of 10,000.</p>
+<p>Finally, we can output our result!</p>
+<pre><code class="language-javascript">// RESULT OUTPUT
+var finalArray = Array.from(happyNumbers).sort( (a, b) =&gt; a - b);
+console.log("Happy Numbers: " + finalArray.join(', '));
+</code></pre>
+<p>We create an array out of our happyNumbers Set, and then sort it numerically (since our numbers will all be out of order by default). We can then log this result to our console.</p>
+<h2 id="in-summary-4"><a class="header" href="#in-summary-4">In Summary</a></h2>
+<p>This was a pretty fun exercise and my first real use of Sets.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

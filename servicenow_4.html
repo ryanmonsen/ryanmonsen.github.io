@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Passing Values to Arrays During GlideRecord Queries - Ryan&#x27;s Personal Blog</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">1.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">2.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">3.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html" class="active"><strong aria-hidden="true">4.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">JavaScript</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">5.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ryan&#x27;s Personal Blog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="passing-values-to-arrays-during-gliderecord-queries"><a class="header" href="#passing-values-to-arrays-during-gliderecord-queries">Passing Values to Arrays during GlideRecord Queries</a></h1>
+<p><em>8 February 2024</em></p>
+<p>Some very intelligent people on Stack Overflow will tell you that JavaScript does not actually have any sort of pass by reference. In fact, JavaScript only has “pass by value” and “pass by sharing”, in which what is passed is not the original reference but a copy of the reference.</p>
+<p>None of this matters for what we’re about to talk about, but you can find a very good explanation of this <a href="https://stackoverflow.com/a/38533677">here</a>.</p>
+<p>We are still going to call this “pass by reference” for now, because “reference” is already a well-understood term in ServiceNow.</p>
+<h2 id="references-and-getvalue"><a class="header" href="#references-and-getvalue">References and GetValue</a></h2>
+<p>We have a good idea of what a <strong>reference field</strong> is in a table.</p>
+<p>If we stored the <strong>Caller name</strong> directly on an Incident, in a String field… what would happen if that caller changed their name? Suddenly we’d have some Incidents tied to an old name and some tied to a new name. So instead, we reference another record. The caller name is being pulled from the <strong>User</strong> table instead. What we are storing in <strong>Caller</strong> is not actually the user’s name, but a reference to the <strong>record on the User table</strong>.</p>
+<p><img src="images/servicenow_4_1.webp" alt="Image" /></p>
+<p>This means, if David Miller changed his name, that would be changed in the User table, and all the Incidents would now display the new name instead — both all his previous Incidents and any new Incidents he opened. Pretty neat.</p>
+<p>We can think of arrays and objects in JavaScript the same way. When we pass data between objects and arrays, what is passed is a reference to where we can find the data.</p>
+<p>Let’s look at GlideRecord as an example!</p>
+<pre><code class="language-javascript">var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    gs.print(gr.short_description);
+}
+</code></pre>
+<p>This will give us:</p>
+<pre><code>*** Script: Unable to connect to email
+*** Script: My computer is not detecting the headphone device
+*** Script: Reset my password
+*** Script: Need Oracle 10GR2 installed
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Makes sense. We are printing every time we are looking at a new record in our GlideRecord query.</p>
+<p>What if, instead, we put these in an array?</p>
+<pre><code class="language-javascript">var array = [];
+
+var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    array.push(gr.short_description);
+}
+
+for (item in array) {
+    gs.print(array[item]);
+}
+</code></pre>
+<pre><code>*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Uh oh! What’s happened here?</p>
+<p>Well, every time we pushed to <code>array</code>, we thought we were pushing the string of the short description… but instead, we were pushing that reference to <code>gr</code>!</p>
+<p>So, what was actually stored in the array looked something like this (translated for the human brain):</p>
+<pre><code>[
+  gr.short_description,
+  gr.short_description,
+  gr.short_description,
+  gr.short_description,
+  gr.short_description
+]
+</code></pre>
+<p>When we printed out the end result, <code>gr.short_description</code>’s value was the very last Incident we were looking at, with the description of 'Need new Blackberry set up', and so we got that outputted five times. <code>gr</code> in this case is kind of like that reference to the Caller name we talked about above — every time we did <code>gr.next()</code>, the <strong>Short description</strong> changed.</p>
+<p>In order to fix this, we have to explicitly push the <strong>value</strong> of the data we want, and not just the reference of where to find the data.</p>
+<p>ServiceNow has provided us a very helpful method within GlideRecord for this, called <code>getValue()</code>. With this method, the data will be translated to a string, and so when it is stored in the array it will no longer be a reference, but actual string data.</p>
+<p>Let’s take a look at how the code will look when using <code>getValue()</code>.</p>
+<pre><code class="language-javascript">var array = [];
+
+var gr = new GlideRecord('incident');
+gr.addActiveQuery;
+gr.setLimit(5);
+gr.query();
+while (gr.next()) {
+    array.push(gr.getValue('short_description')); // use getValue
+}
+
+for (item in array) {
+    gs.print(array[item]);
+}
+</code></pre>
+<p>Now, when we run this...</p>
+<pre><code>*** Script: Unable to connect to email
+*** Script: My computer is not detecting the headphone device
+*** Script: Reset my password
+*** Script: Need Oracle 10GR2 installed
+*** Script: Need new Blackberry set up
+</code></pre>
+<p>Great! We have exactly what we wanted — rather than a reference to <code>gr</code>, which keeps changing, the actual value of the data was stored to the array each time we pushed.</p>
+<h2 id="what-about-getdisplayvalue"><a class="header" href="#what-about-getdisplayvalue">What about GetDisplayValue?</a></h2>
+<p>In addition to <code>getValue()</code>, there’s another cool method called <code>getDisplayValue()</code>. Rather than getting the backend value for a field, it will get whatever is being displayed to the user.</p>
+<p>For example, <code>getValue()</code> on a choice field will give the value, which may be a number, but <code>getDisplayValue()</code> will give the label.</p>
+<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
+<p>It's good to just get into the habit of using <code>getValue()</code> and <code>getDisplayValue()</code> where possible, just so you avoid running into this issue.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="servicenow_3.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="javascript_1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="servicenow_3.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="javascript_1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

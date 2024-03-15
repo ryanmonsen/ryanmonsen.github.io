@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Portal UI Actions, Part 1 - Ryan&#x27;s Personal Blog</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">1.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html" class="active"><strong aria-hidden="true">2.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">3.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">4.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">JavaScript</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">5.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ryan&#x27;s Personal Blog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="portal-ui-actions-part-1"><a class="header" href="#portal-ui-actions-part-1">Portal UI Actions, Part 1</a></h1>
+<p><em>16 February 2021</em></p>
+<p>Before there was a “Standard Ticket Actions”, we had a need to create a UI Actions widget on the portal. Here’s what I did to achieve that.</p>
+<h2 id="html"><a class="header" href="#html">HTML</a></h2>
+<p>The entire panel shows if <code>data.panelVisibility</code> is true. Check the below server script to understand how that evaluates.</p>
+<p>Then, for each button in c.data.buttons, show if <code>button.condition</code> is true. Again, check the server script — the condition for each button is stored in the server script.</p>
+<p>On click of the button, the modal window opens. A comments window optionally displays and is optionally mandatory depending on <code>data.commentsVisible</code> and <code>data.commentsMandatory</code> which, again, is fed in from the buttons data...</p>
+<p>Finally, there is a Submit and a Cancel button in the modal window.</p>
+<pre><code class="language-html">&lt;!-- This section handles the panel and button display.
+You will not need to edit it because it pulls from c.data.buttons --&gt;&lt;div class="panel b ng-scope" ng-if="data.panelVisibility"&gt;
+  &lt;div class="panel-heading bg-primary panel-la-jolla-default"&gt;
+    Actions
+  &lt;/div&gt;
+  &lt;div class="panel-body"&gt;
+    &lt;span ng-repeat="button in c.data.buttons"&gt;
+      &lt;button type="button" ng-if="button.condition" style="margin: 5px 0px;" class="btn btn-default btn-block" ng-click="c.openModal(button.name)"&gt;{{button.label}}&lt;/button&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;!-- This section handles the modal window.--&gt;&lt;script type="text/ng-template" id="modalTemplate"&gt;
+&lt;div class="panel panel-default"&gt;
+  &lt;div class="panel-heading"&gt;
+    &lt;h4 class="panel-title"&gt;{{data.title}}&lt;/h4&gt;
+  &lt;/div&gt;&lt;div class="panel-body wrapper-xl"&gt;
+    &lt;p style="margin-bottom: 20px;"&gt;{{data.text}}&lt;/p&gt;
+    &lt;form name="modalTemplate" ng-submit="c.uiAction(c.data.button)"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;textarea required sp-autosize="true" ng-if="data.commentsVisible" ng-required="data.commentsMandatory" ng-model="data.comments" id="comments" placeholder="Enter comments here" class="form-control ng-pristine ng-valid ng-scope ng-empty ng-touched" aria-invalid="false" style="overflow: hidden; word-wrap: break-word; resize: horizontal;"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;&lt;input class="btn btn-primary" type="submit" value="Submit" /&gt;
+      &lt;button class="btn" type="cancel" ng-click="c.closeModal()"&gt;Cancel&lt;/button&gt;&lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+<h2 id="server-script"><a class="header" href="#server-script">Server Script</a></h2>
+<p>The Server Script presets some modal form values for <code>data.commentsVisible</code> and <code>data.commentsMandatory</code> to use later—in some cases, we want users to be able to input comments, and in some cases enforce comments to be inputted, before allowing the action to continue.</p>
+<p>We also initialize <code>buttonValues</code>.</p>
+<p>We then fetch <code>data.table</code> and <code>data.sys_id</code> as the input.table and input.sys_id.</p>
+<p>So this looks like:</p>
+<pre><code class="language-javascript">// Preset some modal form values related to the comments visibility.
+// In some cases, we may not need a UI Action to have a comments box.
+// Also preset a variable for later.
+ data.commentsVisible = false;
+ data.commentsMandatory = false;
+ var buttonValues;// Get table &amp; sys_id and perform validity checks.
+ data.table = input.table || $sp.getParameter("table");
+ data.sys_id = input.sys_id || $sp.getParameter("sys_id");
+ gr = new GlideRecord(data.table);
+ if (!gr.isValid())
+  return;
+ if (!gr.get(data.sys_id))
+  return;
+</code></pre>
+<p>Next, we set up some buttons into <code>data.buttons</code>. (These were created in a specific way that they could be offloaded to a separate table if we ended up with too many, but thankfully we never needed that many buttons.)</p>
+<p>Here is just one example, but you can put in many buttons to data.buttons. We have four right now.</p>
+<pre><code class="language-javascript">// Set up each button's basic parameters.
+// name: give it a single word name.
+// label: This will be the button label and modal header.
+// condition: The condition for the button to show up.
+// text: The supporting text on the modal window.
+// commentsVisible: Whether there should be an input comments window.
+// commentsMandatory: Whether the comments window should be mandatory.
+// execution: The function to execute when clicked on.// Remember! gr is the variable for the current record.
+data.buttons = [{name:'reopenRslv',
+   label: 'Reopen Resolved Incident',
+   condition: (data.table == 'incident' &amp;&amp; gr.incident_state == 6 &amp;&amp; gr.caller_id == gs.getUserID()),
+   text: "Please enter a comment when reopening an Incident.",
+   commentsVisible: true,
+   commentsMandatory: true,
+   execution: function(){
+    gr.state = 60;
+    gr.close_code = '';
+    gr.close_notes = '';
+    gr.comments = input.comments;
+    gr.update();
+   }
+  }
+]
+</code></pre>
+<p>Notice how we gave the name of the button, the user-friendly label, the text to show the user, the condition to show this button on (which <strong>must</strong> include the ticket table to show this button on), set our commentsVisible and commentsMandatory, and set our execution script.</p>
+<p>You can also set data.referURL within the execution function, by the way. This will be handled later, and is useful for actions that generate new tickets from the existing ticket — you can forward your user directly to the new ticket.</p>
+<p>We then decide whether to show the Portal UI Actions panel at all:</p>
+<pre><code class="language-javascript">// This section sets the entire visibility of the UI Actions panel,
+// based on whether any of the button conditions evaluate to true.var arrayLength = data.buttons.length;
+ var flag = false;
+ for (var i=0; i &lt; arrayLength; i++) {
+  if (data.buttons[i].condition == true) {
+   flag = true;
+  }
+ }
+ data.panelVisibility = flag;
+</code></pre>
+<p>We now handle how the modal window will look and act, by checking if <strong>input.button</strong> occurred.</p>
+<pre><code class="language-javascript">// Handle the modal title and additional fields.
+// Also handle whether comments need to be visible and mandatory.
+// This works by finding the data.buttons object corresponding to the button clicked.if (input &amp;&amp; input.button) {
+  var button = input.button;buttonValues = findButton(data.buttons, 'name', button);
+  data.title = buttonValues.label;
+  data.text = buttonValues.text;
+  data.commentsVisible = buttonValues.commentsVisible;
+  data.commentsMandatory = buttonValues.commentsMandatory;
+ }
+</code></pre>
+<p><code>findButton</code> looks like the below — we are sending along the data.buttons array, ‘name’, and the actual name of the button they clicked on. Essentially we look for which button the user clicked on and return that one, which will display the modal window for the user.</p>
+<pre><code class="language-javascript">// Function to find the correct button in the buttons data
+ function findButton(array, key, value) {
+  for (var i = 0; i &lt; array.length; i++) {
+   if (array[i][key] === value) {
+    return array[i];
+   }
+  }
+  return null;
+ }
+</code></pre>
+<p>Finally, when the user clicks <strong>Submit</strong> on the modal window, we find the correct execution action and execute it:</p>
+<pre><code class="language-javascript"> if (input &amp;&amp; input.action) {
+  var action = input.action;
+  buttonValues = findButton(data.buttons, 'name', action);
+  buttonValues.execution();
+}
+</code></pre>
+<h2 id="client-controller"><a class="header" href="#client-controller">Client Controller</a></h2>
+<p>Our function takes $uibModal, $scope, spUtil, $window.</p>
+<p>We first set our $scope.$on:</p>
+<pre><code class="language-javascript">$scope.$on('record.updated', function(name, data) {
+  c.data.comments = '';
+  spUtil.update($scope);
+ })
+</code></pre>
+<p>Now, we will handle what happens when the modal window opens:</p>
+<pre><code class="language-javascript">// This function handles opening the modal window.
+// If takes the button input and puts it in data object, then reloads the server-side actions.
+// After server actions, it opens the modal window.
+ c.openModal = function(button) {
+  c.data.button = button;
+  c.server.update();
+  c.modalInstance = $uibModal.open({
+   templateUrl: 'modalTemplate',
+   scope: $scope
+  });
+ }
+</code></pre>
+<p>Remember how, on the HTML, clicking the button executed <code>ng-click="c.openModal(button.name)"</code>? We take that button name, and we pass it to the server as <code>c.data.button = button</code> — this is how our <code>if (input &amp;&amp; input.button)</code> works on the server script.</p>
+<p>On that server script, we set all the stuff needed for our modal window — the label, the text, the commentsVisible, and the commentsMandatory.</p>
+<p>Next, what happens when the user clicks <strong>Submit</strong>? <code>ng-submit="c.uiAction(c.data.button)"</code> occurs, and lets us know, again, which button we’re submitting.</p>
+<pre><code class="language-javascript">// This function handles execution of action per the modal submission.
+// It takes the action input and puts it in data object, then reloads the server-side actions.
+// After server actions, if there's a referring URL to go to then it goes there.
+// If we didn't redirect anywhere, it sets action &amp; button back to undefined and then closes the modal window.
+c.uiAction = function(action) {
+  c.data.action = action;
+  c.server.update().then(function() {
+   if (!!c.data.referURL)
+    top.window.location.href = c.data.referURL;
+   c.data.action = undefined;
+   c.data.button = undefined;
+  })
+  c.modalInstance.close();}
+</code></pre>
+<p>We take action on the button by sending c.data.action back to the server — this is what triggers the <code>if (input &amp;&amp; input.action)</code>. If we provided a referURL, we’d then send the user there — otherwise, we just refresh the page and reset our action and button.</p>
+<p>Finally, if the user clicks <strong>Cancel</strong>, we trigger <code>ng-click="c.closeModal()"</code>.</p>
+<pre><code class="language-javascript">// This function closes the modal window.
+// It first clears out button and action, just in case.
+c.closeModal = function() {
+  c.data.action = undefined;
+  c.data.button = undefined;
+  c.modalInstance.close();
+}
+</code></pre>
+<p>This clears out our action and our button so they can click a different one if they want to instead.</p>
+<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
+<p>This was my first attempt at creating a Portal widget. There are certainly places where it can be improved and refined, but it does what it needs to do.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="servicenow_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="servicenow_3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="servicenow_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="servicenow_3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
