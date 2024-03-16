@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">The Six Million Dollar Chad</li><li class="chapter-item expanded "><a href="chatbot_1.html"><strong aria-hidden="true">1.</strong> We can rebuild him. We have the technology.</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">2.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">3.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">4.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">5.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">Miscellaneous</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">6.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">The Six Million Dollar Chad</li><li class="chapter-item expanded "><a href="chatbot_1.html"><strong aria-hidden="true">1.</strong> We can rebuild him.</a></li><li class="chapter-item expanded "><a href="chatbot_2.html"><strong aria-hidden="true">2.</strong> We have the technology.</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">3.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">4.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">5.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">6.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">Miscellaneous</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">7.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -178,6 +178,10 @@
 <p>Hi, I'm Ryan. This is where I'll post about cool stuff I've been working on.</p>
 <p>You may want to read about my <strong>ServiceNow</strong> learnings, or maybe my adventures in building <strong>Chad</strong>, a GPT4-driven chatbot. Check out the left-hand navigation menu.</p>
 <h2 id="updates"><a class="header" href="#updates">Updates</a></h2>
+<h3 id="16-march-2024"><a class="header" href="#16-march-2024">16 March 2024</a></h3>
+<ul>
+<li>Added a new <a href="./chatbot_2.html">blog post</a> about the queuing system in Chad.</li>
+</ul>
 <h3 id="15-march-2024"><a class="header" href="#15-march-2024">15 March 2024</a></h3>
 <ul>
 <li>Added a <a href="./chatbot_1.html">blog post</a> about the initial work building Chad.</li>
@@ -187,7 +191,7 @@
 <ul>
 <li>Created the blog and moved a bunch of stuff over from Medium.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="we-can-rebuild-him-we-have-the-technology"><a class="header" href="#we-can-rebuild-him-we-have-the-technology">We can rebuild him. We have the technology.</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="we-can-rebuild-him"><a class="header" href="#we-can-rebuild-him">We can rebuild him.</a></h1>
 <p><em>15 March 2024</em></p>
 <p>About a month ago, my Pixel told me I could replace Google Assistant with Gemini. What a great idea! Finally, the dreams I had in 2016, when Google Assistant was first released, could be realized. Google has all my information already, and with the ability to pull in data from various services I was sure this would be a great experience.</p>
 <p>My primary use of Google Assistant is setting reminders to myself at night so I can follow up with them in the morning, for the record. Gemini straight-up couldn't do that a month ago, nor could it perform a lot of services Google Assistant provided.</p>
@@ -206,7 +210,7 @@
 <p>All the way on the 24th, I committed <del>an absolute crime against Python</del> what I call "horrible token analysis".</p>
 <p><img src="images/chatbot_1_1.png" alt="Image" /></p>
 <p>This absolute nightmare addition to the Conversation class involved storing the token counts for each message in the conversation history, utilizing tiktoken to guess the amount of tokens that would be used for the next input (and multiplying it by 1.25 as a magic number to make the prediction more accurate), and then popping old history until we were under the token count for the input (leaving space for the 1024 max response tokens).</p>
-<p>Now that I'm writing this, I do wonder whether my issue is that I haven't accounted for the tokens used when sending the list of available tools, an that's why I need the magic number.</p>
+<p>Now that I'm writing this, I do wonder whether my issue is that I haven't accounted for the tokens used when sending the list of available tools, and that's why I need the magic number.</p>
 <ul>
 <li><input disabled="" type="checkbox"/>
 To do: check token counts for tools?</li>
@@ -279,6 +283,75 @@ To do: check token counts for tools?</li>
 <h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
 <p>I'm learning a lot about Python, asyncio, and building a chatbot around the capabilities of LLMs.</p>
 <p>Eventually this thing will be presentable enough that I'll make my Github repo public.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="we-have-the-technology"><a class="header" href="#we-have-the-technology">We have the technology.</a></h1>
+<p><em>16 March 2024</em></p>
+<p>Yesterday, we built the initial queuing system to handle task notices.</p>
+<p>First, the end result:</p>
+<p><img src="images/chatbot_2_1.png" alt="Image" /></p>
+<p>There's a new class in the mix: <code>ChatQueue</code>. Right now, it's just an extension of asyncio's Queue. It does basically nothing special except logging as well as enforcing a particular <code>QueueMessage</code> dataclass.</p>
+<pre><code class="language-python">class ChatQueue(Queue):
+
+    @dataclass
+    class QueueMessage:
+        text: str
+        msgtype: str
+
+    async def put(self, queue_message: QueueMessage):
+        log.debug("Put a message in the queue.", extra = {"queue_message": queue_message})
+        await super().put(queue_message)
+
+    async def get(self) -&gt; QueueMessage:
+        queue_message = await super().get()
+        log.debug("Got a message from the queue.", extra = {"queue_message": queue_message})
+        return queue_message
+</code></pre>
+<p>The intent here is that, should we require extra processing on getting or setting messages, we will now be able to take care of that. But at least when you <code>put</code> you know you have to pass in a QueueMessage, and when you <code>get</code> you know you'll get a QueueMessage back.</p>
+<h2 id="wheres-chatqueue-used"><a class="header" href="#wheres-chatqueue-used">Where's ChatQueue used?</a></h2>
+<p>The <code>ChatSession</code> class creates a new <code>output_queue</code> of type ChatQueue. Eventually we want to output the final response to this queue as well, probably later today, but right now we're just passing it into the <code>PluginInterface.call_tools</code> function.</p>
+<p>This means we had to restructure the PluginInterface abstract base class to accept a ChatQueue within the <code>__call__</code> definition, as well as the subclass plugins, and we pass it along when we call each plugin.</p>
+<p>So for example, our testing plugin of <code>GetDateTime</code> which will eventually be superceded by just passing the time in with the prompt (but is very nice for testing plugins at the moment)...</p>
+<pre><code class="language-python">    async def __call__(self, queue: ChatQueue, **kwargs) -&gt; str:
+        await queue.put(
+            queue.QueueMessage("Chad is checking his calendar...", "notice")
+        )
+        tz = pytz.timezone(kwargs["timezone"])
+        now = datetime.datetime.now(tz)
+        return now.strftime("%A %d %b %Y, %I:%M%p")
+</code></pre>
+<p>Great! How do messages get consumed from the queue? Well, that implementation is left up to our Message Interface of choice. Each Message Interface can choose how to handle different QueueMessage msgtypes.</p>
+<p>In the Matrix reference implementation, we've now got the <code>queue_consumer</code> which starts up as soon as a <code>message_callback</code> is initiated (when it notices a new message has been sent into the room).</p>
+<p>While true, we <code>get</code> a message from the queue, and if it's of type notice we send an <code>m.room.message</code> of type <code>m.notice</code> into the thread.</p>
+<p>Then we're processing the main message, which is still not in the queue yet but will be soon, we <code>join</code> any pending tasks, and <code>cancel</code> the consumer.</p>
+<h2 id="but-why-should-the-main-output-also-be-in-the-queue"><a class="header" href="#but-why-should-the-main-output-also-be-in-the-queue">But why should the main output also be in the queue?</a></h2>
+<p>Here's our line of thinking:</p>
+<ol>
+<li>
+<p>It's nicer if everything comes from one location, implementation-wise. I want it to be easy to build other Message Interfaces off of this.</p>
+</li>
+<li>
+<p>Ordering - we can ensure the notice type messages happen before the response type messages.</p>
+</li>
+</ol>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Here's where we are, and where I want to go next, given the previous post.</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Check token counts for plugins, as this may be where my secret extra token usage is going</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Build a basic queuing system</li>
+<li><input disabled="" type="checkbox"/>
+Make the main message output also go into the queuing system</li>
+<li><input disabled="" type="checkbox"/>
+Investigate JSON Responses for output modes and self-thought</li>
+<li><input disabled="" type="checkbox"/>
+Build a Prompt Manager which can change the prompt based on output modes</li>
+<li><input disabled="" type="checkbox"/>
+Based on output modes, certain plugins should or should not be available to Chad</li>
+</ul>
+<p>Okay, so that last one -- basically, if we have a bunch of plugins, we don't want to overwhelm Chad every time with every plugin, right? But if plugins are only available in certain output modes, we can control which ones we send to Chad depending on whether Chad thinks he needs plugin help.</p>
+<p>Maybe there's the "reference" mode where we provide the plugins to call Wikipedia or other external knowledge, and the "phone a friend" mode where Chad can call other models and pass in his own information for a response. That sort of thing.</p>
+<p>I'd also like a "user info" mode where we additionally pass in the details of who's talking to Chad, and he can pass that in to retrieve additional information. Like, "I need to check the user's calendar", so he passes in the user who's talking to him, and he gets back the user account and a list of plugins that are available like "calendar" "location" or whatever, and then he can choose the appropriate plugin, passing in the user account, and the plugins cross-reference some sort of data structure that says "aha, for this user account, we have the API details for the user's Google Calendar, so we'll call it and return the response."</p>
+<p>That means that data's gonna have to be stored somewhere, and in any real-world scenario that would have to be secured somehow. But like, the LLM itself is never actually knowing those details besides the user account it's passing in, so that seems okay.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="list-choice-ui-action-on-database-view"><a class="header" href="#list-choice-ui-action-on-database-view">List Choice UI Action on Database View</a></h1>
 <p><em>13 February 2021</em></p>
 <p>We had a very specific use case that involved <strong>Assessment Instances</strong>, <strong>Assessment Instance Questions</strong>, and <strong>Assessment Feedback Tickets</strong> (custom created). If an Assessment with written feedback was analyzed and found to have something worth correcting, a Feedback Ticket should be opened up to the team who resolved that user’s original ticket for root cause analysis and remediation.</p>
