@@ -1,0 +1,319 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>We can rebuild him. - Ryan&#x27;s Personal Blog</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">The Six Million Dollar Chad</li><li class="chapter-item expanded "><a href="chatbot_1.html" class="active"><strong aria-hidden="true">1.</strong> We can rebuild him.</a></li><li class="chapter-item expanded "><a href="chatbot_2.html"><strong aria-hidden="true">2.</strong> We have the technology.</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">3.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">4.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">5.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">6.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">Miscellaneous</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">7.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Ryan&#x27;s Personal Blog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="we-can-rebuild-him"><a class="header" href="#we-can-rebuild-him">We can rebuild him.</a></h1>
+<p><em>15 March 2024</em></p>
+<p>About a month ago, my Pixel told me I could replace Google Assistant with Gemini. What a great idea! Finally, the dreams I had in 2016, when Google Assistant was first released, could be realized. Google has all my information already, and with the ability to pull in data from various services I was sure this would be a great experience.</p>
+<p>My primary use of Google Assistant is setting reminders to myself at night so I can follow up with them in the morning, for the record. Gemini straight-up couldn't do that a month ago, nor could it perform a lot of services Google Assistant provided.</p>
+<p>Separately, my partner and I have been using ChatGPT through <a href="https://github.com/matrixgpt/matrix-chatgpt-bot">matrix-chatgpt-bot</a>, which uses <a href="https://github.com/waylaidwanderer/node-chatgpt-api">node-chatgpt-api</a>. It's pretty nice but doesn't allow for plugins at all.</p>
+<p>So I said, "You know what? This sucks. I'm building my own."</p>
+<h2 id="sprint-1-chad-gippity-in-python"><a class="header" href="#sprint-1-chad-gippity-in-python">Sprint 1: Chad Gippity in Python</a></h2>
+<blockquote>
+<p>"You are Chad Gippity, a helpful assistant. You like to use the 😎 emoticon. Respond conversationally. NEVER make up an answer if you don't know, just respond with 'I don't know'."</p>
+</blockquote>
+<p>On February 13th, the first two commits were made. A very basic ChatSession class existed which would send and receive responses as well as handle tool calls, which existed in a separate plugins module. Our single plugin would retrieve the current date and time. There was also a very basic Conversation class which held the conversation history and could append responses.</p>
+<p>I also built the world's worst Tkinter interface.</p>
+<p><img src="images/chatbot_1_4.png" alt="Image" /></p>
+<p>It worked!</p>
+<p>Feb 14th through 16th involved some cleanup, and the ability to call multiple tools at once using the PluginInterface class (of which plugins, or "tools",  are subclasses). At this time, my partner also got some precommit and pyproject.toml stuff sorted out, which is a little over my head still but I'm slowly figuring it out. It's very impressive though.</p>
+<h2 id="horrible-token-analysis"><a class="header" href="#horrible-token-analysis">Horrible Token Analysis</a></h2>
+<p>All the way on the 24th, I committed <del>an absolute crime against Python</del> what I call "horrible token analysis".</p>
+<p><img src="images/chatbot_1_1.png" alt="Image" /></p>
+<p>This absolute nightmare addition to the Conversation class involved storing the token counts for each message in the conversation history, utilizing tiktoken to guess the amount of tokens that would be used for the next input (and multiplying it by 1.25 as a magic number to make the prediction more accurate), and then popping old history until we were under the token count for the input (leaving space for the 1024 max response tokens).</p>
+<p>Now that I'm writing this, I do wonder whether my issue is that I haven't accounted for the tokens used when sending the list of available tools, and that's why I need the magic number.</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+To do: check token counts for tools?</li>
+</ul>
+<h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
+<p>My partner set up very lovely logging.</p>
+<p><img src="images/chatbot_1_2.webp" alt="Image" /></p>
+<p>Some of this has since been pared down and refined, but it's absolutely beautiful. I don't fully understand logging in Python either, but I'll give myself a pass here since I'm still new at all this.</p>
+<h2 id="sprint-2-chad-gippity-in-matrix"><a class="header" href="#sprint-2-chad-gippity-in-matrix">Sprint 2: Chad Gippity in Matrix</a></h2>
+<p>Now that we had a functional chatbot, the next order of business was to create a reference implementation for an interface. We use Matrix, and that's where we're gonna talk to Chad, so that's what we're building.</p>
+<p>The initial work for this was completed March 12th.</p>
+<p>The message interfaces live outside of the chatbot and call into it. That way, you can use whichever interface suits your needs, or build your own!</p>
+<p>We are utilizing <a href="https://github.com/matrix-nio/matrix-nio">matrix-nio</a> for this. Thus far we've got Chad reading and replying in Matrix - each message in a room, outside of a thread, is an independent conversation. Chad will reply in a thread, and replying in the same thread continues the conversation.</p>
+<p>There's more work which has to be done here but I'm excited at the progress already made.</p>
+<h2 id="a-very-basic-diagram"><a class="header" href="#a-very-basic-diagram">A Very Basic Diagram</a></h2>
+<p>Here's how things currently stand. It's not super detailed, but gives a good overview of how we've structured this so far.</p>
+<p><strong>Interface Client</strong>, the left-most box, would be the application like Matrix (or Slack, or a website.) That's why it says "outbound message" where it translates to "input" for everything else.</p>
+<p><strong>Message Interface</strong> will be what is actually run for whichever messaging service you wanted to use.</p>
+<p>The rest are all handled in the backend.</p>
+<p><img src="images/chatbot_1_3.png" alt="Image" /></p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's next?</a></h2>
+<h3 id="queuing-and-queue-manager"><a class="header" href="#queuing-and-queue-manager">Queuing and Queue Manager</a></h3>
+<p>While waiting for the next final message output, what if we want interim messages?</p>
+<blockquote>
+<p><em>Chad is checking Wikipedia...</em></p>
+</blockquote>
+<blockquote>
+<p><em>Chad is consulting his notes...</em></p>
+</blockquote>
+<p>I think we need to place things into a queue and have the Message Interface handle those queued items however it wants. For Matrix, they could be <code>m.notice</code> type messages.</p>
+<pre><code class="language-json">{
+    "type": "m.room.message",
+    "content": {
+        "body": "_Chad is checking Wikipedia..._",
+        "msgtype": "m.notice",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "&lt;em&gt;Chad is checking Wikipedia...&lt;/em&gt;"
+    }
+}
+</code></pre>
+<h3 id="json-responses"><a class="header" href="#json-responses">JSON Responses</a></h3>
+<p>ChatGPT can handle enforcing JSON responses.</p>
+<p>What if each Message Interface could define which JSON they want in their response, with some default fallback if none provided that at least has base data?</p>
+<p>Maybe as part of the response in Matrix, we want Chad to give an emoji reply to the prior message. Rather than having two calls to ChatGPT, e.g. a tool call, we can just have that sent back as part of the JSON.</p>
+<pre><code class="language-json">{
+    "mode":"response",
+    "content":"That is a funny joke!",
+    "react":"😁"
+}
+</code></pre>
+<p>That could then be parsed as an <code>m.reaction</code> message to the input message.</p>
+<p>We may also want some form of internal thought process that lets Chad generate multiple messages, e.g.</p>
+<pre><code class="language-json">{
+    "mode":"analysis",
+    "content":"I need more information to proceed on this request."
+}
+</code></pre>
+<p>If a type of analysis is returned, feed it back into Chad.</p>
+<p>The fear here is an endless loop of self-thoughts, or Chad not using it appropriately. This would have to be guided via prompts.</p>
+<h3 id="prompt-manager"><a class="header" href="#prompt-manager">Prompt Manager</a></h3>
+<p>Our prompt is hardcoded right now. No need for that to be the case. It should send the current date and time, maybe some details about the user (guided by the Message Interface), etc.</p>
+<p>Maybe it will also change based on the type of output Chad provides. In the example above, analysis mode...</p>
+<blockquote>
+<p>You are in analysis mode. Based on the user's input, determine what information you need to complete the user's ask, and whether you have that information or not.</p>
+</blockquote>
+<p>After getting that information back...</p>
+<blockquote>
+<p>You are in analysis mode. Based on your thought about what information you have, ask for the missing information from the user.</p>
+</blockquote>
+<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
+<p>I'm learning a lot about Python, asyncio, and building a chatbot around the capabilities of LLMs.</p>
+<p>Eventually this thing will be presentable enough that I'll make my Github repo public.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chatbot_2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chatbot_2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>A Solution to the Happy Numbers Problem in JavaScript - Ryan&#x27;s Personal Blog</title>
+        <title>We have the technology. - Ryan&#x27;s Personal Blog</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">The Six Million Dollar Chad</li><li class="chapter-item expanded "><a href="chatbot_1.html"><strong aria-hidden="true">1.</strong> We can rebuild him.</a></li><li class="chapter-item expanded "><a href="chatbot_2.html"><strong aria-hidden="true">2.</strong> We have the technology.</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">3.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">4.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">5.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">6.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">Miscellaneous</li><li class="chapter-item expanded "><a href="javascript_1.html" class="active"><strong aria-hidden="true">7.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">The Six Million Dollar Chad</li><li class="chapter-item expanded "><a href="chatbot_1.html"><strong aria-hidden="true">1.</strong> We can rebuild him.</a></li><li class="chapter-item expanded "><a href="chatbot_2.html" class="active"><strong aria-hidden="true">2.</strong> We have the technology.</a></li><li class="chapter-item expanded affix "><li class="part-title">ServiceNow</li><li class="chapter-item expanded "><a href="servicenow_1.html"><strong aria-hidden="true">3.</strong> List Choice UI Action on Database View</a></li><li class="chapter-item expanded "><a href="servicenow_2.html"><strong aria-hidden="true">4.</strong> Portal UI Actions, Part 1</a></li><li class="chapter-item expanded "><a href="servicenow_3.html"><strong aria-hidden="true">5.</strong> Portal UI Actions, Part 2</a></li><li class="chapter-item expanded "><a href="servicenow_4.html"><strong aria-hidden="true">6.</strong> Passing Values to Arrays During GlideRecord Queries</a></li><li class="chapter-item expanded affix "><li class="part-title">Miscellaneous</li><li class="chapter-item expanded "><a href="javascript_1.html"><strong aria-hidden="true">7.</strong> A Solution to the Happy Numbers Problem in JavaScript</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,150 +173,87 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="a-solution-to-the-happy-numbers-problem-in-javascript"><a class="header" href="#a-solution-to-the-happy-numbers-problem-in-javascript">A Solution to the Happy Numbers Problem in Javascript</a></h1>
-<p><em>2 March 2023</em></p>
-<p>A happy number is a number defined as follows:</p>
-<p>Starting with any positive integer, replace the number by the sum of its squares of its digits, and repeat the process until the number equals 1.</p>
-<p>If the number is a happy number, it will resolve to 1. If it is a sad number, it will loop endlessly.</p>
-<p>Let’s get the first 10,000 happy numbers!</p>
-<pre><code class="language-javascript">// INSTANTIATE OUR SETS
-// WE KNOW 1 IS A HAPPY NUMBER BY DEFINITION
-let happyNumbers = new Set([1]);
-let sadNumbers = new Set();
+                        <h1 id="we-have-the-technology"><a class="header" href="#we-have-the-technology">We have the technology.</a></h1>
+<p><em>16 March 2024</em></p>
+<p>Yesterday, we built the initial queuing system to handle task notices.</p>
+<p>First, the end result:</p>
+<p><img src="images/chatbot_2_1.png" alt="Image" /></p>
+<p>There's a new class in the mix: <code>ChatQueue</code>. Right now, it's just an extension of asyncio's Queue. It does basically nothing special except logging as well as enforcing a particular <code>QueueMessage</code> dataclass.</p>
+<pre><code class="language-python">class ChatQueue(Queue):
 
-// GET FIRST 10,000 HAPPY NUMBERS
-for (x = 0; happyNumbers.size &lt; 10000; x++) {
-    getHappyNumber(x);
-}
+    @dataclass
+    class QueueMessage:
+        text: str
+        msgtype: str
 
-// RESULT OUTPUT
-var finalArray = Array.from(happyNumbers).sort( (a, b) =&gt; a - b);
-console.log("Happy Numbers: " + finalArray.join(', '));
+    async def put(self, queue_message: QueueMessage):
+        log.debug("Put a message in the queue.", extra = {"queue_message": queue_message})
+        await super().put(queue_message)
 
-function getHappyNumber(input) {
-
-    // HOLDING ARRAY WILL LET US KEEP TRACK OF CALCULATED SUMS OF SQUARED DIGITS
-    let holdingArray = [];
-
-    while (true) {
-        // IF HAPPY NUMBER ALREADY HAS IT
-        // NO NEED TO RECALCULATE, PUSH TO SET OF HAPPY NUMBERS
-        if (happyNumbers.has(input)) {
-            holdingArray.forEach(x =&gt; happyNumbers.add(x));
-            break;
-
-        // IF WE ARE IN A LOOP OR SAD NUMBER ALREADY HAS IT
-        // NO NEED TO RECALCULATE, PUSH TO SET OF SAD NUMBERS
-        } else if (sadNumbers.has(input) || holdingArray.includes(input)) {
-            holdingArray.forEach(x =&gt; sadNumbers.add(x));
-            break;
-        }
-
-        // PUSH THE NUMBER TO THE HOLDING ARRAY
-        holdingArray.push(input);
-
-        // CALCULATE SUM OF SQUARES
-        // GOTTA TURN THIS NUMBER INTO A STRING
-        // AND THEN SPLIT IT INTO AN ARRAY
-        // AND SUM UP EACH SQUARED VALUE WITH REDUCE
-        input = input.toString().split('').reduce(
-            (acc, cur) =&gt; acc + (cur ** 2), 0
-        );
-    }
-
-}
+    async def get(self) -&gt; QueueMessage:
+        queue_message = await super().get()
+        log.debug("Got a message from the queue.", extra = {"queue_message": queue_message})
+        return queue_message
 </code></pre>
-<p>Time to break this bad boy down.</p>
-<h2 id="breaking-this-bad-boy-down"><a class="header" href="#breaking-this-bad-boy-down">Breaking This Bad Boy Down</a></h2>
-<p>Let’s start with the basic part, where we turn one number into a sum of its squared digits. That’s the part at the end!</p>
-<p>Here’s a example with an input and an output.</p>
-<pre><code class="language-javascript">let input = 19;
-
-let output = input.toString().split('').reduce(
-    (acc, cur) =&gt; acc + (cur ** 2), 0
-);
-
-console.log("Input: " + input + " Output: " + output);
-// Input: 19 Output: 82
+<p>The intent here is that, should we require extra processing on getting or setting messages, we will now be able to take care of that. But at least when you <code>put</code> you know you have to pass in a QueueMessage, and when you <code>get</code> you know you'll get a QueueMessage back.</p>
+<h2 id="wheres-chatqueue-used"><a class="header" href="#wheres-chatqueue-used">Where's ChatQueue used?</a></h2>
+<p>The <code>ChatSession</code> class creates a new <code>output_queue</code> of type ChatQueue. Eventually we want to output the final response to this queue as well, probably later today, but right now we're just passing it into the <code>PluginInterface.call_tools</code> function.</p>
+<p>This means we had to restructure the PluginInterface abstract base class to accept a ChatQueue within the <code>__call__</code> definition, as well as the subclass plugins, and we pass it along when we call each plugin.</p>
+<p>So for example, our testing plugin of <code>GetDateTime</code> which will eventually be superceded by just passing the time in with the prompt (but is very nice for testing plugins at the moment)...</p>
+<pre><code class="language-python">    async def __call__(self, queue: ChatQueue, **kwargs) -&gt; str:
+        await queue.put(
+            queue.QueueMessage("Chad is checking his calendar...", "notice")
+        )
+        tz = pytz.timezone(kwargs["timezone"])
+        now = datetime.datetime.now(tz)
+        return now.strftime("%A %d %b %Y, %I:%M%p")
 </code></pre>
-<p>What we’re doing is:</p>
+<p>Great! How do messages get consumed from the queue? Well, that implementation is left up to our Message Interface of choice. Each Message Interface can choose how to handle different QueueMessage msgtypes.</p>
+<p>In the Matrix reference implementation, we've now got the <code>queue_consumer</code> which starts up as soon as a <code>message_callback</code> is initiated (when it notices a new message has been sent into the room).</p>
+<p>While true, we <code>get</code> a message from the queue, and if it's of type notice we send an <code>m.room.message</code> of type <code>m.notice</code> into the thread.</p>
+<p>Then we're processing the main message, which is still not in the queue yet but will be soon, we <code>join</code> any pending tasks, and <code>cancel</code> the consumer.</p>
+<h2 id="but-why-should-the-main-output-also-be-in-the-queue"><a class="header" href="#but-why-should-the-main-output-also-be-in-the-queue">But why should the main output also be in the queue?</a></h2>
+<p>Here's our line of thinking:</p>
 <ol>
-<li>Taking that number input and turning it into a String</li>
-<li>Splitting its digits into an array</li>
-<li>Reducing the array by adding each array element (digit) ** 2 (squared) to our initial value of 0</li>
+<li>
+<p>It's nicer if everything comes from one location, implementation-wise. I want it to be easy to build other Message Interfaces off of this.</p>
+</li>
+<li>
+<p>Ordering - we can ensure the notice type messages happen before the response type messages.</p>
+</li>
 </ol>
-<p>Of course, that 82 would need to be further reduced into 68, which would be reduced to 100, which would be reduced to 1! This means that we now know, by looking at 19, that 19, 82, 68, and 100 are all happy numbers.</p>
-<p>We can now examine the whole getHappyNumber() function.</p>
-<pre><code class="language-javascript">// INSTANTIATE OUR SETS
-// WE KNOW 1 IS A HAPPY NUMBER BY DEFINITION
-let happyNumbers = new Set([1]);
-let sadNumbers = new Set();
-
-// snipping this part for later :)
-
-function getHappyNumber(input) {
-
-    // HOLDING ARRAY WILL LET US KEEP TRACK OF CALCULATED SUMS OF SQUARED DIGITS
-    let holdingArray = [];
-
-    while (true) {
-        // IF HAPPY NUMBER ALREADY HAS IT
-        // NO NEED TO RECALCULATE, PUSH TO SET OF HAPPY NUMBERS
-        if (happyNumbers.has(input)) {
-            holdingArray.forEach(x =&gt; happyNumbers.add(x));
-            break;
-
-        // IF WE ARE IN A LOOP OR SAD NUMBER ALREADY HAS IT
-        // NO NEED TO RECALCULATE, PUSH TO SET OF SAD NUMBERS
-        } else if (sadNumbers.has(input) || holdingArray.includes(input)) {
-            holdingArray.forEach(x =&gt; sadNumbers.add(x));
-            break;
-        }
-
-        // PUSH THE NUMBER TO THE HOLDING ARRAY
-        holdingArray.push(input);
-
-        // CALCULATE SUM OF SQUARES
-        // GOTTA TURN THIS NUMBER INTO A STRING
-        // AND THEN SPLIT IT INTO AN ARRAY
-        // AND SUM UP EACH SQUARED VALUE WITH REDUCE
-        input = input.toString().split('').reduce(
-            (acc, cur) =&gt; acc + (cur ** 2), 0
-        );
-    }
-
-}
-</code></pre>
-<p>You’ll notice the first thing we do, outside the function, is instantiate two Sets — happyNumbers and sadNumbers. This will help us keep track of the numbers we’ve already determined to be happy and sad so we don’t waste time recomputing them.</p>
-<p>First, we set our temporary holdingArray. This is where we’re going to store our numbers like 19, 82, 68, and so forth, as we calculate.</p>
-<p>Next, we enter the <strong>while</strong> loop, which loops until we hit a break point.</p>
-<p>The first thing we do is check whether our happyNumbers Set already has our input number. For example, if we are looking at the number <strong>82</strong>, we have presumably already examined <strong>19</strong> and so we would already know <strong>82</strong> is a happy number. No need to go through the whole calculation again — push what we’ve got straight into the happyNumbers Set.</p>
-<p>Similarly, we can next check if our sadNumbers Set already has our input number, for the same reason. We also check whether holdingArray already has that number, because if it does we’re stuck in an endless loop which will never resolve to 1, and that’s a sad number. Push it to the sadNumbers Set and stop looping!</p>
-<p>If neither condition is satisfied, then we’ve got a brand new number to examine! Push it to our holdingArray for later, and perform our calculation on it.</p>
-<p>So, how do we call this to get our first 10,000 happy numbers? We can use a <strong>for</strong> loop for that!</p>
-<pre><code class="language-javascript">// GET FIRST 10,000 HAPPY NUMBERS
-for (x = 0; happyNumbers.size &lt; 10000; x++) {
-    getHappyNumber(x);
-}
-</code></pre>
-<p>Rather than waiting until x gets to a certain size, we’re just going to loop until our happyNumbers Set reaches a size of 10,000.</p>
-<p>Finally, we can output our result!</p>
-<pre><code class="language-javascript">// RESULT OUTPUT
-var finalArray = Array.from(happyNumbers).sort( (a, b) =&gt; a - b);
-console.log("Happy Numbers: " + finalArray.join(', '));
-</code></pre>
-<p>We create an array out of our happyNumbers Set, and then sort it numerically (since our numbers will all be out of order by default). We can then log this result to our console.</p>
-<h2 id="in-summary"><a class="header" href="#in-summary">In Summary</a></h2>
-<p>This was a pretty fun exercise and my first real use of Sets.</p>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Here's where we are, and where I want to go next, given the previous post.</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Check token counts for plugins, as this may be where my secret extra token usage is going</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Build a basic queuing system</li>
+<li><input disabled="" type="checkbox"/>
+Make the main message output also go into the queuing system</li>
+<li><input disabled="" type="checkbox"/>
+Investigate JSON Responses for output modes and self-thought</li>
+<li><input disabled="" type="checkbox"/>
+Build a Prompt Manager which can change the prompt based on output modes</li>
+<li><input disabled="" type="checkbox"/>
+Based on output modes, certain plugins should or should not be available to Chad</li>
+</ul>
+<p>Okay, so that last one -- basically, if we have a bunch of plugins, we don't want to overwhelm Chad every time with every plugin, right? But if plugins are only available in certain output modes, we can control which ones we send to Chad depending on whether Chad thinks he needs plugin help.</p>
+<p>Maybe there's the "reference" mode where we provide the plugins to call Wikipedia or other external knowledge, and the "phone a friend" mode where Chad can call other models and pass in his own information for a response. That sort of thing.</p>
+<p>I'd also like a "user info" mode where we additionally pass in the details of who's talking to Chad, and he can pass that in to retrieve additional information. Like, "I need to check the user's calendar", so he passes in the user who's talking to him, and he gets back the user account and a list of plugins that are available like "calendar" "location" or whatever, and then he can choose the appropriate plugin, passing in the user account, and the plugins cross-reference some sort of data structure that says "aha, for this user account, we have the API details for the user's Google Calendar, so we'll call it and return the response."</p>
+<p>That means that data's gonna have to be stored somewhere, and in any real-world scenario that would have to be secured somehow. But like, the LLM itself is never actually knowing those details besides the user account it's passing in, so that seems okay.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="servicenow_4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="chatbot_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="servicenow_1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -324,10 +261,13 @@ console.log("Happy Numbers: " + finalArray.join(', '));
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="servicenow_4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="chatbot_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="servicenow_1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
